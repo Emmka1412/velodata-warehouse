@@ -27,12 +27,13 @@ OR prd_cost<0;
 
 
 SELECT COUNT(*) FROM bronze.crm_prd_info
-WHERE prd_start_dt > ped_end_dt;
+WHERE prd_start_dt > prd_end_dt;
 
 
 
 SELECT COUNT(*) FROM bronze.crm_sales_details
-WHERE LENGTH(sls_order_dt::TEXT)=8;
+WHERE sls_order_dt <= 0
+OR LENGTH(sls_order_dt::TEXT)<>8;
 
 
 
