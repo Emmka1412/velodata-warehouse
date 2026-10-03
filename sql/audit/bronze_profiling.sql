@@ -1,6 +1,5 @@
 SELECT COUNT(*) FROM bronze.crm_cust_info WHERE cst_id IS NULL;
 
-
 SELECT COUNT(*) FROM (
   SELECT cst_id
   FROM bronze.crm_cust_info
@@ -45,10 +44,8 @@ or sls_price <= 0
 or sls_sales <> sls_quantity * sls_price;
 
 
-
 SELECT COUNT(*) FROM bronze.erp_cust_az12
 WHERE CURRENT_DATE < BDATE ;
-
 
 
 SELECT COUNT(DISTINCT GEN) FROM bronze.erp_cust_az12;
