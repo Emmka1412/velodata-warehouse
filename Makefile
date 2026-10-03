@@ -14,3 +14,10 @@ init:
 
 
 all: up init bronze silver gold test
+
+bronze:
+	$(PSQL) < sql/bronze/01_ddl.sql
+
+	$(PSQL) < sql/bronze/02_load_procedure.sql
+
+	echo "CALL bronze.load_bronze();" | $(PSQL)
