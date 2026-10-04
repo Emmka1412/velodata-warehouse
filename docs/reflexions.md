@@ -27,3 +27,20 @@ now() est figé au début de la transaction : début et fin auraient la même va
 
 **Pourquoi TRUNCATE avant le chargement ?**
 Sans TRUNCATE, chaque exécution dupliquerait les données. Vider la table rend le chargement idempotent : on peut le relancer sans changer le résultat.
+
+## Partie 3
+
+**Date de naissance future : supprimer le client ou la date ?**
+Seulement la date (mise à NULL). Supprimer le client ferait disparaître ses achats, son pays et son genre de toutes les analyses, pour une seule valeur fausse.
+
+**17 clients nés avant 1925 : anomalie ou réalité ?**
+Improbable, pas impossible : je ne corrige pas moi-même. Je conserve les données et je signale les cas au métier, qui peut vérifier.
+
+**Pourquoi garder les ventes sans date de commande ?**
+Supprimer ces 19 ventes sous-estimerait silencieusement le chiffre d'affaires. Elles comptent dans le total, mais n'apparaissent dans aucune période.
+
+**Correction d'un montant incohérent ?**
+Quantité 2, prix 50, montant -100 : le montant est invalide, on le recalcule à 2 × 50 = 100. Deux valeurs fiables suffisent à retrouver la troisième.
+
+**Recalcul des dates de fin de produit ?**
+Fin d'une version = début de la version suivante - 1 jour, calculé avec LEAD(). Versions 2011, 2012, 2013 : fins au 30/06/2012, 30/06/2013 et NULL (version en cours).
