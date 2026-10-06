@@ -21,3 +21,8 @@ bronze:
 	$(PSQL) < sql/bronze/02_load_procedure.sql
 
 	echo "CALL bronze.load_bronze();" | $(PSQL)
+
+silver:
+	$(PSQL) < sql/silver/01_ddl.sql
+	$(PSQL) < sql/silver/02_load_procedure.sql
+	echo "CALL silver.load_silver();" | $(PSQL)
