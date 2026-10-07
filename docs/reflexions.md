@@ -44,3 +44,14 @@ Quantité 2, prix 50, montant -100 : le montant est invalide, on le recalcule à
 
 **Recalcul des dates de fin de produit ?**
 Fin d'une version = début de la version suivante - 1 jour, calculé avec LEAD(). Versions 2011, 2012, 2013 : fins au 30/06/2012, 30/06/2013 et NULL (version en cours).
+
+## Partie 4
+
+**Pourquoi 'n/a' plutôt que NULL pour les valeurs inconnues ?**
+Pour les attributs textuels, NULL se comporte de façon imprévisible (comparaisons, filtres, jointures) et est mal géré par les outils de reporting. 'n/a' est explicite, regroupable et lisible, et évite de perdre des lignes dans les analyses. Pour les dates et montants inconnus, on conserve NULL.
+
+**Quel type de dimension crée le recalcul de prd_end_dt ?**
+Une dimension à variation lente de type 2 (SCD 2) : chaque changement crée une nouvelle ligne, avec une date de début et une date de fin de validité. La version en cours a une fin NULL. On peut ainsi retrouver le prix en vigueur à n'importe quelle date.
+
+**Montant et prix tous deux manquants : que se passe-t-il ?**
+Une équation à deux inconnues : la valeur est irrécupérable, et la procédure produit deux NULL. Ce cas n'existe pas dans les données, mais le contrôle A8 le détecterait. Un pipeline ne doit jamais laisser passer silencieusement une donnée qu'il n'a pas su corriger.
