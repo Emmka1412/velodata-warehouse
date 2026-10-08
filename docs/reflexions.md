@@ -69,3 +69,11 @@ Une vue est toujours à jour mais recalculée à chaque lecture ; une table ou u
 
 **Que deviennent les ventes de produits retirés ?**
 Le filtre sur les produits actuels n'élimine que les anciennes versions : aucune vente n'est perdue. Un produit réellement retiré laisserait ses ventes sans produit (grâce au LEFT JOIN, elles ne disparaissent pas), et le contrôle d'orphelins échouerait. Amélioration possible : garder toutes les versions et joindre chaque vente à la version valide à sa date de commande.
+
+## Partie 6
+
+**Pourquoi la CI lance-t-elle la même commande (make all) qu'en local ?**
+Il n'existe qu'une seule définition du pipeline : le Makefile. Un run vert prouve que le pipeline réel fonctionne sur une machine vierge, et n'importe qui peut le reproduire en clonant le projet. Si la CI lançait d'autres commandes, un run vert ne prouverait rien sur mon pipeline.
+
+**Test qui échoue ou test en erreur ?**
+Un test qui échoue a tourné et a trouvé des anomalies : les données sont en cause, et le test fait son travail. Un test en erreur n'a pas pu s'exécuter (colonne renommée, faute de syntaxe) : le code est en cause, et le contrôle n'a pas eu lieu. C'est le plus dangereux : on ne sait plus rien de la qualité des données.
