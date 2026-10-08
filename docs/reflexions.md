@@ -55,3 +55,17 @@ Une dimension à variation lente de type 2 (SCD 2) : chaque changement crée une
 
 **Montant et prix tous deux manquants : que se passe-t-il ?**
 Une équation à deux inconnues : la valeur est irrécupérable, et la procédure produit deux NULL. Ce cas n'existe pas dans les données, mais le contrôle A8 le détecterait. Un pipeline ne doit jamais laisser passer silencieusement une donnée qu'il n'a pas su corriger.
+
+## Partie 5
+
+**Pourquoi une clé de substitution alors que customer_id existe ?**
+Elle rend l'entrepôt indépendant des sources : si le CRM change de format, ou si une fusion apporte des identifiants en double, les jointures restent valides. Elle permet aussi d'historiser une dimension en SCD 2 (plusieurs versions d'un même client), et les jointures sur un entier sont plus rapides.
+
+**Qui valide la règle « CRM source maître » pour les 57 conflits de genre ?**
+Le métier, pas le data engineer : le responsable des données clients (data owner). J'ai appliqué une règle par défaut pour ne pas bloquer le projet, en la documentant comme point à valider.
+
+**Vue, table ou vue matérialisée pour la couche Gold ?**
+Une vue est toujours à jour mais recalculée à chaque lecture ; une table ou une vue matérialisée est rapide et indexable, mais figée jusqu'au rechargement. Les données d'un entrepôt ne changeant qu'au chargement, une vue matérialisée rafraîchie en fin de pipeline cumule fraîcheur et vitesse. Ici, le faible volume justifie de simples vues.
+
+**Que deviennent les ventes de produits retirés ?**
+Le filtre sur les produits actuels n'élimine que les anciennes versions : aucune vente n'est perdue. Un produit réellement retiré laisserait ses ventes sans produit (grâce au LEFT JOIN, elles ne disparaissent pas), et le contrôle d'orphelins échouerait. Amélioration possible : garder toutes les versions et joindre chaque vente à la version valide à sa date de commande.
