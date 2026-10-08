@@ -29,3 +29,6 @@ silver:
 
 gold:
 	$(PSQL) < sql/gold/01_views.sql
+
+test:
+	./scripts/run_tests.sh
