@@ -1,3 +1,6 @@
+-- =========================================================
+-- Contrôles de la couche Gold : chaque ligne doit afficher OK
+-- =========================================================
 SELECT 'dim_customers : 18 484 clients' AS controle,
        CASE WHEN COUNT(*) = 18484 THEN 'OK' ELSE 'KO' END AS resultat FROM gold.dim_customers
 UNION ALL

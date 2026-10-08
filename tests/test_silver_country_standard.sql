@@ -1,3 +1,4 @@
+-- Les pays appartiennent à la liste normalisée (A11)
 SELECT DISTINCT cntry
 FROM silver.erp_loc_a101
 WHERE cntry NOT IN ('United States', 'Australia', 'United Kingdom',
